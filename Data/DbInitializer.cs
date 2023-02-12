@@ -77,7 +77,7 @@ namespace REST_API_TEMPLATE.Data
                     Id = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
                     Name = "J.K. Rowling"                    
                 });
-                a.HasData(new Author
+                a.HasData(new Album
                 {
                     Id = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
                     Name = "Walter Isaacson"                    
