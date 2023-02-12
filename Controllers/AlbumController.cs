@@ -43,7 +43,7 @@ namespace REST_API_TEMPLATE.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Author>> AddAlbum(Album album)
+        public async Task<ActionResult<Album>> AddAlbum(Album album)
         {
             var dbAlbum = await _libraryService.AddAlbumAsync(album);
 

@@ -18,22 +18,22 @@ namespace REST_API_TEMPLATE.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetImage(Guid id)
         {
-            Book book = await _libraryService.GetBookAsync(id);
+            Image image = await _libraryService.GetImageAsync(id);
 
-            if (book == null)
+            if (image == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent, $"No book found for id: {id}");
+                return StatusCode(StatusCodes.Status204NoContent, $"No image found for id: {id}");
             }
 
-            return StatusCode(StatusCodes.Status200OK, book);
+            return StatusCode(StatusCodes.Status200OK, image);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Book>> AddImage(Image image)
+        public async Task<ActionResult<Image>> AddImage(Image image)
         {
-            var dbBook = await _libraryService.AddImageAsync(image);
+            var dbImage = await _libraryService.AddImageAsync(image);
 
-            if (dbBook == null)
+            if (dbImage == null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{image.Caption} could not be added.");
             }
