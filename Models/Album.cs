@@ -9,7 +9,7 @@ namespace REST_API_TEMPLATE.Models
         public Guid Id { get; set; }
         public string? Name { get; set; }
 
-        // One-to-many relationship with books
+        // One-to-many relationship with imagesd
         public List<Image>? Images { get; set; }
     }
 }

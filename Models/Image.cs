@@ -10,7 +10,7 @@ namespace REST_API_TEMPLATE.Models
         public string? Description { get; set; }
         public string? Caption { get; set; }
 
-        // One-to-many relation with author
+        // One-to-many relation with album
         public Guid? AlbumId { get; set; }
         public Album? Album { get; set; }
     }
