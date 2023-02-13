@@ -5,7 +5,7 @@ using REST_API_TEMPLATE.Services;
 
 namespace REST_API_TEMPLATE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     [ApiController]
     public class AlbumController : ControllerBase
     {
