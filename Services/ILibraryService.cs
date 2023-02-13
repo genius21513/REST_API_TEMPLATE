@@ -6,15 +6,27 @@ namespace REST_API_TEMPLATE.Services
     {
 
         // Album Services
-        Task<Album>         AddAlbumAsync(Album album);     // POST new album
-        Task<List<Album>>   GetAlbumsAsync();               // GET all ablums
-        Task<Album>         GetAlbumAsync(Guid id, bool includeImages = false); // GET album with(out) images
-        Task<(bool, string)> DeleteAlbumAsync(Album album); // DELETE album
+        Task<List<AlbumDto_LAA>>      ListAlbumsAsync();     // Create an album
+
+        Task<AlbumDto_CA>       CreateAlbumAsync(Album album);     // Create an album
+
+        Task<AlbumDto_LAI>      ListAlbumImagesAsync(Guid id);         // GET album images with id
+
+        Task<(bool, string)>    DeleteAlbumAsync(Guid id);      // DELETE album
+
+        // non-routing function
+        Task<Album> GetAlbumAsync(Guid id); // Get image by id
+
+
 
         // Image Services
-        Task<Image>         AddImageAsync(Image image);     // POST new image
-        Task<Image>         GetImageAsync(Guid id);         // GET specified image detail
-        Task<(bool, string)> DeleteImageAsync(Image image); // DELETE image
+        Task<ImageDto_UI> UploadImageAsync(Image image);     // Upload an image
 
+        Task<(bool, string)> DeleteImageAsync(Guid id); // DELETE image
+
+        Task<ImageDto_GDI> GetImageAsync(Guid aid, Guid iid);         // GET specified image by album, image id
+
+        // non-routing function
+        Task<Image> GetImageAsync(Guid id); // Get image by id
     }
 }

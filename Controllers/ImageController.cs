@@ -4,7 +4,7 @@ using REST_API_TEMPLATE.Services;
 
 namespace REST_API_TEMPLATE.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/albums")]
     [ApiController]
     public class ImageController : ControllerBase
     {
@@ -15,23 +15,10 @@ namespace REST_API_TEMPLATE.Controllers
             _libraryService = libraryService;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetImage(Guid id)
+        [HttpPost("{album_id}/images")]
+        public async Task<ActionResult<Image>> UploadImage(Image image)
         {
-            Image image = await _libraryService.GetImageAsync(id);
-
-            if (image == null)
-            {
-                return StatusCode(StatusCodes.Status204NoContent, $"No image found for id: {id}");
-            }
-
-            return StatusCode(StatusCodes.Status200OK, image);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Image>> AddImage(Image image)
-        {
-            var dbImage = await _libraryService.AddImageAsync(image);
+            var dbImage = await _libraryService.UploadImageAsync(image);
 
             if (dbImage == null)
             {
@@ -41,18 +28,30 @@ namespace REST_API_TEMPLATE.Controllers
             return CreatedAtAction("GetImage", new { id = image.Id }, image);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteImage(Guid id)
+        [HttpGet("{album_id}/images/{image_id}")]
+        public async Task<IActionResult> GetImage(Guid album_id, Guid image_id)
         {
-            var image = await _libraryService.GetImageAsync(id);
-            (bool status, string message) = await _libraryService.DeleteImageAsync(image);
+            var image = await _libraryService.GetImageAsync(album_id, image_id);
+
+            if (image == null)
+            {
+                return StatusCode(StatusCodes.Status204NoContent, $"No book found for id: {image.id}");
+            }
+
+            return StatusCode(StatusCodes.Status200OK, image);
+        }
+
+        [HttpDelete("{album_id}/images/{image_id}")]
+        public async Task<IActionResult> DeleteImage(Guid album_id, Guid image_id)
+        {
+            (bool status, string message) = await _libraryService.DeleteImageAsync(image_id);
 
             if (status == false)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
-            return StatusCode(StatusCodes.Status200OK, image);
+            return StatusCode(StatusCodes.Status200OK, $"Deleted image {image_id}");
         }
     }
 }

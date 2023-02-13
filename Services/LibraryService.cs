@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using REST_API_TEMPLATE.Data;
 using REST_API_TEMPLATE.Models;
+using System;
 
 namespace REST_API_TEMPLATE.Services
 {
@@ -14,59 +15,91 @@ namespace REST_API_TEMPLATE.Services
         }
 
         #region Albums
-        public async Task<List<Album>> GetAlbumsAsync()
+        public async Task<List<AlbumDto_LAA>> ListAlbumsAsync()
         {
             try
-            {
-                return await _db.Albums.ToListAsync();
+            {                
+                return await _db.Albums
+                    .Select(e => new AlbumDto_LAA { albumId = e.Id, albumName = e.Name })
+                    .ToListAsync();
             } catch (Exception ex) { return null; }
         }
 
-        public async Task<Album> AddAlbumAsync(Album album)
+        public async Task<AlbumDto_CA>  CreateAlbumAsync(Album album)
         {
             try
             {
                 await _db.Albums.AddAsync(album);
                 await _db.SaveChangesAsync();
-                return await _db.Albums.FindAsync(album.Id);
+                var dbAlbum = await _db.Albums
+                            .FindAsync(album.Id);
+                
+                return new AlbumDto_CA { id = dbAlbum.Id, name = dbAlbum.Name };
             }
             catch (Exception ex){ return null; }
         }
 
-        public async Task<(bool, string)> DeleteAlbumAsync(Album album)
+        public async Task<(bool, string)> DeleteAlbumAsync(Guid id)
         {
             try
             {
-                var dbAlbum = await _db.Albums.FindAsync(album.Id);
+                var dbAlbum = await _db.Albums.FindAsync(id);
 
                 if (dbAlbum == null)
                 {
                     return (false, "Album could not be found.");
                 }
-                _db.Albums.Remove(album);
+                _db.Albums.Remove(dbAlbum);
                 await _db.SaveChangesAsync();
+
+                
                 return (true, "Album got deleted.");
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return (false, $"An error occured. Error Message: {ex.Message}");
             }
         }
-        
-        public async Task<Album> GetAlbumAsync(Guid id, bool includeImages)
+
+
+        public async Task<AlbumDto_LAI> ListAlbumImagesAsync(Guid id)
         {
             try
             {
-                if (includeImages)
+                var images = await _db.Albums.Select(a => new AlbumDto_LAI
                 {
-                    return await _db.Albums.Include(b => b.Images)
-                        .FirstOrDefaultAsync(i => i.Id == id);
-                }
+                    id = a.Id,
+                    name = a.Name,
+                    images = a.Images.Select(i => new ImageDto_LAI
+                    {
+                        id = i.Id,
+                        url = i.Url,
+                        caption = i.Caption
+                    }).ToList()
+                })
+                      .Where(s => s.id == id)
+                      .FirstAsync();
 
+                //Console.WriteLine("images: ", images);
+                return images;
+            }
+            catch(Exception ex) { return null; }
+        }
+        
+        // non-routing function
+        public async Task<Album> GetAlbumAsync(Guid id)
+        {
+            try
+            {
                 return await _db.Albums.FindAsync(id);
-            }catch(Exception ex) { return null;  }
+            }
+            catch (Exception ex) { return null; }
         }
 
         #endregion Albums
+
+
+
 
 
 
@@ -74,37 +107,37 @@ namespace REST_API_TEMPLATE.Services
 
         #region Images
 
-        public async Task<Image> AddImageAsync(Image image)
+        public async Task<ImageDto_UI> UploadImageAsync(Image image)
         {
             try
             {
                 await _db.Images.AddAsync(image);
                 await _db.SaveChangesAsync();
-                return await _db.Images.FindAsync(image.Id); // Auto ID from DB
+                return await _db.Images
+                        .Select(i => new ImageDto_UI
+                        {
+                            id = i.Id,
+                            url = i.Url,
+                            caption = i.Caption,
+                            albumId = i.AlbumId
+                        })
+                        .Where(w => w.id == image.Id)
+                        .FirstAsync();
             }
             catch (Exception ex) { return null; }
         }
-        
-        public async Task<Image> GetImageAsync(Guid id)
-        {
-            try
-            {
-                return await _db.Images.FindAsync(id);       
-            }
-            catch (Exception ex) { return null; }
-        }   
 
-        public async Task<(bool, string)> DeleteImageAsync(Image image)
+        public async Task<(bool, string)> DeleteImageAsync(Guid id)
         {
             try
             {
-                var dbAlbum = await _db.Images.FindAsync(image.Id);
+                var dbAlbum = await _db.Images.FindAsync(id);
 
                 if (dbAlbum == null)
                 {
                     return (false, "Image could not be found.");
                 }
-                _db.Images.Remove(image);
+                _db.Images.Remove(dbAlbum);
                 await _db.SaveChangesAsync();
                 return (true, "Image got deleted.");
             }
@@ -112,6 +145,35 @@ namespace REST_API_TEMPLATE.Services
             {
                 return (false, $"An error occured. Error Message: {ex.Message}");
             }
+        }
+
+
+        public async Task<ImageDto_GDI> GetImageAsync(Guid aid, Guid iid)
+        {
+            try
+            {
+                return await _db.Images
+                    .Select(i => new ImageDto_GDI
+                    {
+                        id= i.Id,
+                        url = i.Url,
+                        caption = i.Caption                     
+                    })
+                    .FirstAsync();
+                    //.FindAsync(iid);
+            }
+            catch (Exception ex) { return null; }
+        }
+
+
+        // non-routing function
+        public async Task<Image> GetImageAsync(Guid id)
+        {
+            try
+            {
+                return await _db.Images.FindAsync(id);
+            }
+            catch (Exception ex) { return null; }
         }
 
         #endregion Images

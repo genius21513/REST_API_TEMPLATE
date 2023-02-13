@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>REST_API_TEMPLATE</name>
+    </assembly>
+    <members>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.ListAblums">
+            <summary>
+            Gets the list of all Albums.
+            </summary>
+            <returns>The list of Albums.</returns>
+        </member>
+    </members>
+</doc>
