@@ -10,5 +10,19 @@
             </summary>
             <returns>The list of Albums.</returns>
         </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.CreateAlbum(REST_API_TEMPLATE.Models.Album)">
+            <summary>
+            Creates an Employee.
+            </summary>
+            <remarks>
+            Sample request:
+            
+                POST api/Employee
+                {        
+                  "name": "Mike",        
+                }
+            </remarks>
+            <param name="album"></param> 
+        </member>
     </members>
 </doc>

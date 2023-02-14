@@ -2,6 +2,7 @@
 using REST_API_TEMPLATE.Models;
 using REST_API_TEMPLATE.Services;
 
+
 namespace REST_API_TEMPLATE.Controllers
 {
     [Route("/albums")]
@@ -10,14 +11,35 @@ namespace REST_API_TEMPLATE.Controllers
     {
         private readonly ILibraryService _libraryService;
 
+
         public ImageController(ILibraryService libraryService)
         {
             _libraryService = libraryService;
         }
 
+
         [HttpPost("{album_id}/images")]
-        public async Task<ActionResult<Image>> UploadImage(Image image)
+        public async Task<ActionResult<Image>> UploadImage(String caption, IFormFile file)
         {
+            try
+            {
+                (bool status, string path) = await _libraryService.UploadImageAsync(file);
+
+                if (status)
+                {
+                    await _libraryService.UploadImageAsync(file);
+                    return StatusCode(StatusCodes.Status200OK, "Upload successful");
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "File Upload Failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
             var dbImage = await _libraryService.UploadImageAsync(image);
 
             if (dbImage == null)
@@ -26,6 +48,30 @@ namespace REST_API_TEMPLATE.Controllers
             }
 
             return CreatedAtAction("GetImage", new { id = image.Id }, image);
+        }
+
+        [HttpPost("upload")]
+        public async Task<ActionResult> Index(IFormFile file)
+        {
+            try
+            {
+                
+
+                if (await _libraryService.UploadFile(file))
+                {                    
+                    return StatusCode(StatusCodes.Status200OK, "Upload successful");
+                }
+                else
+                {                    
+                    return StatusCode(StatusCodes.Status500InternalServerError, "File Upload Failed");
+                }
+            }
+            catch (Exception ex)
+            {                
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+
+            //return StatusCode(StatusCodes.Status200OK, "Upload successful");
         }
 
         [HttpGet("{album_id}/images/{image_id}")]

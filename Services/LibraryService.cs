@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using REST_API_TEMPLATE.Data;
+using REST_API_TEMPLATE.Helpers;
 using REST_API_TEMPLATE.Models;
+using REST_API_TEMPLATE.Requests;
 using System;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace REST_API_TEMPLATE.Services
 {
@@ -9,9 +13,12 @@ namespace REST_API_TEMPLATE.Services
     {
         private readonly AppDbContext _db;
 
-        public LibraryService(AppDbContext db)
+        private readonly IWebHostEnvironment environment;
+
+        public LibraryService(AppDbContext db, IWebHostEnvironment environment)
         {
             _db = db;
+            this.environment = environment;
         }
 
         #region Albums
@@ -166,6 +173,59 @@ namespace REST_API_TEMPLATE.Services
         }
 
 
+        public async Task<(bool, string)> UploadImageAsync(String caption, IFormFile file)
+        {
+            try
+            {
+                if (file.Length > 0)
+                {
+                    string path = "";
+                    path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
+
+                    return (true, path);
+
+
+
+                    try
+                    {
+                        await _db.Images.AddAsync(image);
+                        await _db.SaveChangesAsync();
+                        return await _db.Images
+                                .Select(i => new ImageDto_UI
+                                {
+                                    id = i.Id,
+                                    url = i.Url,
+                                    caption = i.Caption,
+                                    albumId = i.AlbumId
+                                })
+                                .Where(w => w.id == image.Id)
+                                .FirstAsync();
+                    }
+                    catch (Exception ex) { return null; }
+
+                }
+                else
+                {
+                    return (false, "Upload failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File Copy Failed", ex);
+            }
+        }
+
+
+
         // non-routing function
         public async Task<Image> GetImageAsync(Guid id)
         {
@@ -177,5 +237,8 @@ namespace REST_API_TEMPLATE.Services
         }
 
         #endregion Images
+
+
+
     }
 }

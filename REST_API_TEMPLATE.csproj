@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <DocumentationFile>E:\Skill\C+#\REST_API_TEMPLATE\REST_API_TEMPLATE.xml</DocumentationFile>
+    <DocumentationFile>E:\Skill\C_\REST_API_TEMPLATE\REST_API_TEMPLATE.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
