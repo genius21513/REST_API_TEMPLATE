@@ -18,6 +18,8 @@ namespace REST_API_TEMPLATE.Services
         }
 
         #region Albums
+
+
         public async Task<List<AlbumDto_LAA>> ListAlbumsAsync()
         {
             try
@@ -99,6 +101,7 @@ namespace REST_API_TEMPLATE.Services
             catch (Exception ex) { return null; }
         }
 
+
         #endregion Albums
 
 
@@ -109,6 +112,8 @@ namespace REST_API_TEMPLATE.Services
         // Image Services
 
         #region Images
+
+
 
         public async Task<ImageDto_UI> UploadImageAsync(Image image)
         {
@@ -128,6 +133,36 @@ namespace REST_API_TEMPLATE.Services
                         .FirstAsync();
             }
             catch (Exception ex) { return null; }
+        }
+
+        public async Task<(bool, string)> UploadImageAsync(String caption, IFormFile file)
+        {
+            try
+            {
+                if (file.Length > 0)
+                {
+                    string path = "";
+                    path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
+                    if (!Directory.Exists(path))
+                    {
+                        Directory.CreateDirectory(path);
+                    }
+                    using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+
+                    return (true, path);
+                }
+                else
+                {
+                    return (false, "Upload failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File Copy Failed", ex);
+            }
         }
 
         public async Task<(bool, string)> DeleteImageAsync(Guid id)
@@ -167,37 +202,6 @@ namespace REST_API_TEMPLATE.Services
             catch (Exception ex) { return null; }
         }
 
-        public async Task<(bool, string)> UploadImageAsync(String caption, IFormFile file)
-        {
-            try
-            {
-                if (file.Length > 0)
-                {
-                    string path = "";
-                    path = Path.GetFullPath(Path.Combine(Environment.CurrentDirectory, "UploadedFiles"));
-                    if (!Directory.Exists(path))
-                    {
-                        Directory.CreateDirectory(path);
-                    }
-                    using (var fileStream = new FileStream(Path.Combine(path, file.FileName), FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-
-                    return (true, path);
-                }
-                else
-                {
-                    return (false, "Upload failed");
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("File Copy Failed", ex);
-            }
-        }
-
-
         // non-routing function
         public async Task<Image> GetImageAsync(Guid id)
         {
@@ -207,6 +211,8 @@ namespace REST_API_TEMPLATE.Services
             }
             catch (Exception ex) { return null; }
         }
+
+
 
         #endregion Images
 

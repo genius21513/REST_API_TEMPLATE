@@ -1,5 +1,4 @@
 ﻿using REST_API_TEMPLATE.Models;
-using REST_API_TEMPLATE.Requests;
 
 namespace REST_API_TEMPLATE.Services
 {
