@@ -19,8 +19,7 @@ namespace REST_API_TEMPLATE.Controllers
 
         /// <summary>
         /// Gets the list of all Albums.
-        /// </summary>
-        /// <returns>The list of Albums.</returns>
+        /// </summary>        
         // GET: /albums
         [HttpGet]
         public async Task<IActionResult> ListAblums()
@@ -50,20 +49,13 @@ namespace REST_API_TEMPLATE.Controllers
         }
 
         /// <summary>
-        /// Creates an Employee.
+        /// Create a album
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        /// 
-        ///     POST api/Employee
-        ///     {        
-        ///       "name": "Mike",        
-        ///     }
-        /// </remarks>
-        /// <param name="album"></param> 
         [HttpPost]
-        public async Task<IActionResult> CreateAlbum(Album album)
+        public async Task<IActionResult> CreateAlbum([FromBody] String name)
         {
+            Album album = new Album { Id = new Guid(), Name = name };
+
             var dbAlbum = await _libraryService.CreateAlbumAsync(album);
 
             if (dbAlbum == null)

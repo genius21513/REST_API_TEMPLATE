@@ -40,7 +40,7 @@ namespace REST_API_TEMPLATE.Controllers
                         id = image.Id,
                         url = image.Url,
                         albumId = image.AlbumId,
-                        caption = caption                        
+                        caption = caption               
                     });
                 }
                 else

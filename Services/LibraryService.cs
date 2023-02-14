@@ -27,7 +27,12 @@ namespace REST_API_TEMPLATE.Services
                 return await _db.Albums
                     .Select(e => new AlbumDto_LAA { albumId = e.Id, albumName = e.Name })
                     .ToListAsync();
-            } catch (Exception ex) { return null; }
+            } 
+            catch (Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null; 
+            }
         }
 
         public async Task<AlbumDto_CA>  CreateAlbumAsync(Album album)
@@ -36,12 +41,17 @@ namespace REST_API_TEMPLATE.Services
             {
                 await _db.Albums.AddAsync(album);
                 await _db.SaveChangesAsync();
-                var dbAlbum = await _db.Albums
-                            .FindAsync(album.Id);
+                var dbAlbum = await _db.Albums.FindAsync(album.Id);
                 
+                if(dbAlbum == null) { return null; }
+
                 return new AlbumDto_CA { id = dbAlbum.Id, name = dbAlbum.Name };
             }
-            catch (Exception ex){ return null; }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null;
+            }
         }
 
         public async Task<(bool, string)> DeleteAlbumAsync(Guid id)
@@ -49,15 +59,9 @@ namespace REST_API_TEMPLATE.Services
             try
             {
                 var dbAlbum = await _db.Albums.FindAsync(id);
-
-                if (dbAlbum == null)
-                {
-                    return (false, "Album could not be found.");
-                }
+                if (dbAlbum == null) { return (false, "Album could not be found.");}
                 _db.Albums.Remove(dbAlbum);
-                await _db.SaveChangesAsync();
-
-                
+                await _db.SaveChangesAsync();                
                 return (true, "Album got deleted.");
             }
             catch (Exception ex)
@@ -71,24 +75,29 @@ namespace REST_API_TEMPLATE.Services
         {
             try
             {
-                var images = await _db.Albums.Select(a => new AlbumDto_LAI
-                {
-                    id = a.Id,
-                    name = a.Name,
-                    images = a.Images.Select(i => new ImageDto_LAI
+                var images = await _db.Albums
+                    .Select(a => new AlbumDto_LAI 
                     {
-                        id = i.Id,
-                        url = i.Url,
-                        caption = i.Caption
-                    }).ToList()
-                })
-                      .Where(s => s.id == id)
-                      .FirstAsync();
+                        id = a.Id,
+                        name = a.Name,
+                        images = a.Images.Select(i => new ImageDto_LAI 
+                        {
+                            id = i.Id,
+                            url = i.Url,
+                            caption = i.Caption
+                        }).ToList()
+                    })
+                    .Where(s => s.id == id)
+                    .FirstAsync();
 
                 //Console.WriteLine("images: ", images);
                 return images;
             }
-            catch(Exception ex) { return null; }
+            catch(Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null; 
+            }
         }
         
         // non-routing function
@@ -98,7 +107,11 @@ namespace REST_API_TEMPLATE.Services
             {
                 return await _db.Albums.FindAsync(id);
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null;
+            }
         }
 
 
