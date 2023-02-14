@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using REST_API_TEMPLATE.Models;
+using REST_API_TEMPLATE.Requests;
 using REST_API_TEMPLATE.Services;
-
 
 namespace REST_API_TEMPLATE.Controllers
 {
@@ -11,37 +11,36 @@ namespace REST_API_TEMPLATE.Controllers
     {
         private readonly ILibraryService _libraryService;
 
-
         public ImageController(ILibraryService libraryService)
         {
             _libraryService = libraryService;
         }
-
-
+        /// <summary>
+        /// Upload a image
+        /// </summary>
         [HttpPost("{album_id}/images")]
-        public async Task<ActionResult<Image>> UploadImage(Guid album_id, String caption, IFormFile file)
+        public async Task<ActionResult<ImageDto_UI>> UploadImage([FromRoute] Guid albumId, [FromForm] UploadImageRequest uir)
         {
             try
             {
-                (bool status, string path) = await _libraryService.UploadImageAsync(caption, file);
+                (bool status, string path) = await _libraryService.UploadImageAsync(uir.file);
 
                 var image = new Image { 
-                    AlbumId = album_id,
-                    Caption = caption,
+                    AlbumId = albumId,
+                    Caption = uir.caption,
                     Url = path
-                };
-
-                //Console.WriteLine(image);
+                };                
 
                 if (status)
                 {
                     await _libraryService.UploadImageAsync(image);
-                    return StatusCode(StatusCodes.Status200OK, new {
-                        id = image.Id,
-                        url = image.Url,
-                        albumId = image.AlbumId,
-                        caption = caption               
-                    });
+                    return StatusCode(StatusCodes.Status200OK, 
+                        new ImageDto_UI {
+                            id = image.Id,
+                            url = image.Url,
+                            albumId = image.AlbumId,
+                            caption = image.Caption
+                        });
                 }
                 else
                 {

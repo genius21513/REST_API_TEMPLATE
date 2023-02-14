@@ -42,9 +42,8 @@ namespace REST_API_TEMPLATE.Services
                 await _db.Albums.AddAsync(album);
                 await _db.SaveChangesAsync();
                 var dbAlbum = await _db.Albums.FindAsync(album.Id);
-                
-                if(dbAlbum == null) { return null; }
 
+                if(dbAlbum == null) { return null; }
                 return new AlbumDto_CA { id = dbAlbum.Id, name = dbAlbum.Name };
             }
             catch (Exception ex)
@@ -61,7 +60,7 @@ namespace REST_API_TEMPLATE.Services
                 var dbAlbum = await _db.Albums.FindAsync(id);
                 if (dbAlbum == null) { return (false, "Album could not be found.");}
                 _db.Albums.Remove(dbAlbum);
-                await _db.SaveChangesAsync();                
+                await _db.SaveChangesAsync();
                 return (true, "Album got deleted.");
             }
             catch (Exception ex)
@@ -148,7 +147,7 @@ namespace REST_API_TEMPLATE.Services
             catch (Exception ex) { return null; }
         }
 
-        public async Task<(bool, string)> UploadImageAsync(String caption, IFormFile file)
+        public async Task<(bool, string)> UploadImageAsync(IFormFile file)
         {
             try
             {

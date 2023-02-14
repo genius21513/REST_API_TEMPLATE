@@ -22,7 +22,7 @@ namespace REST_API_TEMPLATE.Services
         // Image Services
         Task<ImageDto_UI> UploadImageAsync(Image image);     // Upload an image
 
-        Task<(bool, string)> UploadImageAsync(String caption, IFormFile file);
+        Task<(bool, string)> UploadImageAsync(IFormFile file);
 
         Task<(bool, string)> DeleteImageAsync(Guid id); // DELETE image
 

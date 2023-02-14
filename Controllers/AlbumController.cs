@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using REST_API_TEMPLATE.Models;
+using REST_API_TEMPLATE.Requests;
 using REST_API_TEMPLATE.Services;
 
 namespace REST_API_TEMPLATE.Controllers
@@ -34,9 +35,11 @@ namespace REST_API_TEMPLATE.Controllers
             return StatusCode(StatusCodes.Status200OK, albums);
         }
 
-
+        /// <summary>
+        /// Get list of all images within an album
+        /// </summary>
         [HttpGet("{album_id}")]
-        public async Task<IActionResult> ListAlbumImages(Guid album_id)
+        public async Task<IActionResult> ListAlbumImages([FromBody]Guid album_id)
         {
             var album = await _libraryService.ListAlbumImagesAsync(album_id);
 
@@ -49,12 +52,12 @@ namespace REST_API_TEMPLATE.Controllers
         }
 
         /// <summary>
-        /// Create a album
+        /// Create an album
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateAlbum([FromBody] String name)
+        public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest car)
         {
-            Album album = new Album { Id = new Guid(), Name = name };
+            Album album = new Album { Id = new Guid(), Name = car.Name };
 
             var dbAlbum = await _libraryService.CreateAlbumAsync(album);
 
@@ -64,12 +67,14 @@ namespace REST_API_TEMPLATE.Controllers
             }
 
             return StatusCode(StatusCodes.Status200OK, dbAlbum);
-
             //return CreatedAtAction("GetAlbum", new { id = dbAlbum.id }, dbAlbum);
         }
 
+        /// <summary>
+        /// Delete an album
+        /// </summary>
         [HttpDelete("{album_id}")]
-        public async Task<IActionResult> DeleteAlbum(Guid album_id)
+        public async Task<IActionResult> DeleteAlbum([FromRoute]Guid album_id)
         {
             var album = await _libraryService.GetAlbumAsync(album_id);
             (bool status, string message) = await _libraryService.DeleteAlbumAsync(album_id);
