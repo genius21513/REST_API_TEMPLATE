@@ -210,7 +210,8 @@ namespace REST_API_TEMPLATE.Services
                     {
                         id= i.Id,
                         url = i.Url,
-                        caption = i.Caption                     
+                        albumId = i.AlbumId,
+                        caption = i.Caption
                     })
                     .Where(w => w.id == iid)
                     .FirstAsync();
