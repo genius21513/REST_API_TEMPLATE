@@ -15,18 +15,20 @@ namespace REST_API_TEMPLATE.Controllers
         {
             _libraryService = libraryService;
         }
+
+
         /// <summary>
         /// Upload a image
         /// </summary>
         [HttpPost("{album_id}/images")]
-        public async Task<ActionResult<ImageDto_UI>> UploadImage([FromRoute] Guid albumId, [FromForm] UploadImageRequest uir)
+        public async Task<ActionResult<ImageDto_UI>> UploadImage([FromForm] UploadImageRequest uir)
         {
             try
             {
                 (bool status, string path) = await _libraryService.UploadImageAsync(uir.file);
 
                 var image = new Image { 
-                    AlbumId = albumId,
+                    AlbumId = uir.album_id,
                     Caption = uir.caption,
                     Url = path
                 };                
@@ -53,6 +55,9 @@ namespace REST_API_TEMPLATE.Controllers
             }            
         }
 
+        /// <summary>
+        /// Get a specified image from an album
+        /// </summary>
         [HttpGet("{album_id}/images/{image_id}")]
         public async Task<IActionResult> GetImage(Guid album_id, Guid image_id)
         {
@@ -66,6 +71,9 @@ namespace REST_API_TEMPLATE.Controllers
             return StatusCode(StatusCodes.Status200OK, image);
         }
 
+        /// <summary>
+        /// Delete a image from an album
+        /// </summary>
         [HttpDelete("{album_id}/images/{image_id}")]
         public async Task<IActionResult> DeleteImage(Guid album_id, Guid image_id)
         {

@@ -24,9 +24,19 @@
             Delete an album
             </summary>
         </member>
-        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.UploadImage(System.Guid,REST_API_TEMPLATE.Requests.UploadImageRequest)">
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.UploadImage(REST_API_TEMPLATE.Requests.UploadImageRequest)">
             <summary>
             Upload a image
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.GetImage(System.Guid,System.Guid)">
+            <summary>
+            Get a specified image from an album
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.DeleteImage(System.Guid,System.Guid)">
+            <summary>
+            Delete a image from an album
             </summary>
         </member>
     </members>
