@@ -9,7 +9,7 @@ RUN dotnet restore --use-current-runtime
 
 # copy everything else and build app
 COPY REST_API_TEMPLATE/. .
-WORKDIR /source/REST_API_TEMPLATE
+# WORKDIR /source
 RUN dotnet publish -c release -o /app --use-current-runtime --self-contained false --no-restore
 
 # final stage/image
