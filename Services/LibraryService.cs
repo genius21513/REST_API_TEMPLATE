@@ -58,9 +58,16 @@ namespace REST_API_TEMPLATE.Services
             try
             {
                 var dbAlbum = await _db.Albums.FindAsync(id);
-                if (dbAlbum == null) { return (false, "Album could not be found.");}
+                if (dbAlbum == null) { return (false, "Album could not be found.");}                
+
+                var images = _db.Images.Where(i => i.AlbumId == id);
+                foreach (var image in images)
+                {
+                    dbAlbum.Images.Remove(image);
+                }
                 _db.Albums.Remove(dbAlbum);
                 await _db.SaveChangesAsync();
+
                 return (true, "Album got deleted.");
             }
             catch (Exception ex)
