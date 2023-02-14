@@ -7,7 +7,6 @@ namespace REST_API_TEMPLATE.Models
         [Key]
         public Guid Id { get; set; }
         public string? Url { get; set; }        
-        public string? Description { get; set; }
         public string Caption { get; set; }
 
         // One-to-many relation with album
