@@ -144,7 +144,11 @@ namespace REST_API_TEMPLATE.Services
                         .Where(w => w.id == image.Id)
                         .FirstAsync();
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null; 
+            }
         }
 
         public async Task<(bool, string)> UploadImageAsync(IFormFile file)
@@ -208,10 +212,15 @@ namespace REST_API_TEMPLATE.Services
                         url = i.Url,
                         caption = i.Caption                     
                     })
+                    .Where(w => w.id == iid)
                     .FirstAsync();
                     //.FindAsync(iid);
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null; 
+            }
         }
 
         // non-routing function
@@ -221,7 +230,11 @@ namespace REST_API_TEMPLATE.Services
             {
                 return await _db.Images.FindAsync(id);
             }
-            catch (Exception ex) { return null; }
+            catch (Exception ex) 
+            {
+                Console.WriteLine("Error: ", ex.Message);
+                return null; 
+            }
         }
 
 

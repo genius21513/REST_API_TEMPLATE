@@ -39,7 +39,7 @@ namespace REST_API_TEMPLATE.Controllers
         /// Get list of all images within an album
         /// </summary>
         [HttpGet("{album_id}")]
-        public async Task<IActionResult> ListAlbumImages([FromBody]Guid album_id)
+        public async Task<IActionResult> ListAlbumImages([FromRoute] Guid album_id)
         {
             var album = await _libraryService.ListAlbumImagesAsync(album_id);
 
