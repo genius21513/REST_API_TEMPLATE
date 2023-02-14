@@ -23,11 +23,13 @@ namespace REST_API_TEMPLATE.Controllers
         {
             try
             {
-                (bool status, string path) = await _libraryService.UploadImageAsync(file);
+                (bool status, string path) = await _libraryService.UploadImageAsync(caption, file);
+
+                var image = new Image { };
 
                 if (status)
                 {
-                    await _libraryService.UploadImageAsync(file);
+                    await _libraryService.UploadImageAsync(image);
                     return StatusCode(StatusCodes.Status200OK, "Upload successful");
                 }
                 else

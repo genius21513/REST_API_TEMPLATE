@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using REST_API_TEMPLATE.Data;
-using REST_API_TEMPLATE.Helpers;
 using REST_API_TEMPLATE.Models;
-using REST_API_TEMPLATE.Requests;
-using System;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace REST_API_TEMPLATE.Services
 {
@@ -154,7 +150,6 @@ namespace REST_API_TEMPLATE.Services
             }
         }
 
-
         public async Task<ImageDto_GDI> GetImageAsync(Guid aid, Guid iid)
         {
             try
@@ -171,7 +166,6 @@ namespace REST_API_TEMPLATE.Services
             }
             catch (Exception ex) { return null; }
         }
-
 
         public async Task<(bool, string)> UploadImageAsync(String caption, IFormFile file)
         {
@@ -190,28 +184,7 @@ namespace REST_API_TEMPLATE.Services
                         await file.CopyToAsync(fileStream);
                     }
 
-
                     return (true, path);
-
-
-
-                    try
-                    {
-                        await _db.Images.AddAsync(image);
-                        await _db.SaveChangesAsync();
-                        return await _db.Images
-                                .Select(i => new ImageDto_UI
-                                {
-                                    id = i.Id,
-                                    url = i.Url,
-                                    caption = i.Caption,
-                                    albumId = i.AlbumId
-                                })
-                                .Where(w => w.id == image.Id)
-                                .FirstAsync();
-                    }
-                    catch (Exception ex) { return null; }
-
                 }
                 else
                 {
@@ -223,7 +196,6 @@ namespace REST_API_TEMPLATE.Services
                 throw new Exception("File Copy Failed", ex);
             }
         }
-
 
 
         // non-routing function
