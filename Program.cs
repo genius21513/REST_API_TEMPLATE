@@ -43,6 +43,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+Console.WriteLine("Be going to migarte.");
+
 using (var scope = app.Services.CreateScope())
 {    
     scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
