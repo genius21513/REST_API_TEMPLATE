@@ -37,8 +37,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 //builder.Configuration.AddEnvironmentVariables();
 
 var connectionString = builder.Configuration["ConnectionString"];
-
-Console.WriteLine("Con: ", connectionString);
+Console.WriteLine(connectionString);
 
 // Register database
 //builder.Services.AddDbContext<AppDbContext>(options =>
@@ -50,14 +49,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
 
-Console.WriteLine("Migarted at the start:", builder.Configuration.ToString());
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {    
-    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
-    Console.WriteLine("Migarted at the start:");
+    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();    
 }
 
 // Configure the HTTP request pipeline.
