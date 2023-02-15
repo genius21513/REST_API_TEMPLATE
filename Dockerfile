@@ -4,6 +4,11 @@ WORKDIR /source
 COPY *.csproj .
 RUN dotnet restore
 
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+RUN dotnet ef database update
+
 COPY . ./
 
 RUN dotnet publish -c release -o /app
@@ -14,5 +19,6 @@ COPY --from=build  /app ./
 
 EXPOSE 80
 #EXPOSE 443
+
 
 ENTRYPOINT ["dotnet", "REST_API_TEMPLATE.dll"]
