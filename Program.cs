@@ -50,16 +50,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseHsts();
+//app.UseHsts();
 
-app.Use((context, next) =>
-{
-    context.Request.Scheme = "https";
-    context.Request.Host = new HostString(context.Request.Host.Host, 443);
-    return next();
-});
+//app.Use((context, next) =>
+//{
+//    context.Request.Scheme = "https";
+//    context.Request.Host = new HostString(context.Request.Host.Host, 443);
+//    return next();
+//});
 
 app.UseAuthorization();
 
