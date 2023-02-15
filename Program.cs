@@ -40,6 +40,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
+Console.WriteLine(builder.Configuration.GetConnectionString("WebApiDatabase"));
 
 var app = builder.Build();
 
