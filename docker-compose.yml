@@ -6,6 +6,8 @@ services:
     build:      
       context: ./
       # dockerfile: ./HelloDockerWeb/Dockerfile
+    environment:
+      - DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
     depends_on: [ postgres ]
     ports:
       - "3000:80"
