@@ -43,10 +43,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
-//}
+using (var scope = app.Services.CreateScope())
+{    
+    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+    Console.WriteLine("Migarted at the start:");
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
