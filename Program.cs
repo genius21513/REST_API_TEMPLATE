@@ -36,8 +36,8 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 // add environmet variables
 //builder.Configuration.AddEnvironmentVariables();
 
-var connectionString = builder.Configuration["ConnectionString"];
-Console.WriteLine(connectionString);
+//var connectionString = builder.Configuration["ConnectionString"];
+//Console.WriteLine(connectionString);
 
 // Register database
 //builder.Services.AddDbContext<AppDbContext>(options =>
