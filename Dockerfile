@@ -2,16 +2,15 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 
 COPY *.csproj .
-RUN dotnet restore
-
-
 COPY . ./
 
-RUN dotnet publish -c release -o /app
+RUN dotnet restore
 
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 RUN dotnet ef database update
+
+RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
