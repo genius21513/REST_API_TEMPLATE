@@ -1,6 +1,19 @@
 version: '3.5'
 
 services:
+  asp:
+    container_name: web
+    build:      
+      context: ./
+      # dockerfile: ./HelloDockerWeb/Dockerfile
+    environment:
+      - DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
+    depends_on: [ postgres ]
+    ports:
+      - "3000:80"
+      #- "443:443"
+
+
   postgres:
     container_name: db
     image: postgres
@@ -16,6 +29,7 @@ services:
       - main-network
     restart: unless-stopped
   
+
   #pgadmin:
   #  container_name: pgadmin
   #  image: dpage/pgadmin4
@@ -32,17 +46,7 @@ services:
   #    - main-network
   #  restart: unless-stopped
 
-  asp:
-    container_name: web
-    build:      
-      context: ./
-      # dockerfile: ./HelloDockerWeb/Dockerfile
-    environment:
-      - DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
-    depends_on: [ postgres ]
-    ports:
-      - "3000:80"
-      #- "443:443"
+
 
 networks:
   main-network:
