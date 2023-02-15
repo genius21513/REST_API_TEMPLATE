@@ -50,15 +50,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-app.UseHsts();
+//app.UseHsts();
 
-app.Use((context, next) =>
-{
-    context.Request.Scheme = "https";
-    return next();
-});
+//app.Use((context, next) =>
+//{
+//    context.Request.Scheme = "https";
+//    return next();
+//});
 
 app.UseAuthorization();
 
