@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>REST_API_TEMPLATE</name>
+    </assembly>
+    <members>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.ListAblums">
+            <summary>
+            Gets the list of all Albums.
+            </summary>        
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.ListAlbumImages(System.Guid)">
+            <summary>
+            Get list of all images within an album
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.CreateAlbum(REST_API_TEMPLATE.Requests.CreateAlbumRequest)">
+            <summary>
+            Create an album
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.AlbumController.DeleteAlbum(System.Guid)">
+            <summary>
+            Delete an album
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.UploadImage(REST_API_TEMPLATE.Requests.UploadImageRequest)">
+            <summary>
+            Upload a image
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.GetImage(System.Guid,System.Guid)">
+            <summary>
+            Get a specified image from an album
+            </summary>
+        </member>
+        <member name="M:REST_API_TEMPLATE.Controllers.ImageController.DeleteImage(System.Guid,System.Guid)">
+            <summary>
+            Delete a image from an album
+            </summary>
+        </member>
+    </members>
+</doc>
