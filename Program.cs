@@ -33,8 +33,12 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 
-// add environmet variables (from docker env)
-builder.Configuration.AddEnvironmentVariables();
+// add environmet variables
+//builder.Configuration.AddEnvironmentVariables();
+
+var connectionString = builder.Configuration["ConnectionString"];
+
+Console.WriteLine("Con: ", connectionString);
 
 // Register database
 //builder.Services.AddDbContext<AppDbContext>(options =>
@@ -43,8 +47,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
 
 Console.WriteLine("Migarted at the start:", builder.Configuration.ToString());
 
