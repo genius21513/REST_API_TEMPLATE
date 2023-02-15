@@ -7,7 +7,7 @@ services:
       context: ./
       # dockerfile: ./HelloDockerWeb/Dockerfile
     environment:
-      - DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
+      #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
       - "ConnectionStrings:PgDatabase=Host=postgres;Database=test;Username=test;Password=test" 
     depends_on: [ postgres ]
     ports:

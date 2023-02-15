@@ -46,9 +46,9 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
 
-var app = builder.Build();
-
 Console.WriteLine("Migarted at the start:", builder.Configuration.ToString());
+
+var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {    
