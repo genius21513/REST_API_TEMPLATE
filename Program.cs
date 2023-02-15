@@ -33,18 +33,21 @@ builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 
+// add environmet variables (from docker env)
+builder.Configuration.AddEnvironmentVariables();
+
 // Register database
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//    options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
 
-Console.WriteLine(builder.Configuration.GetConnectionString("WebApiDatabase"));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
+
 
 var app = builder.Build();
-
-Console.WriteLine("Be going to migarte.");
 
 using (var scope = app.Services.CreateScope())
 {    
