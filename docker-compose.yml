@@ -1,26 +1,49 @@
-version: '3.8'
+version: '3.5'
+
 services:
-  web:
-    container_name: web
-    build:      
-      context: ./
-      # dockerfile: ./HelloDockerWeb/Dockerfile
-    depends_on: [ db ]
-    ports:
-      - "3000:80"
-  db:
-    container_name: pgsql
-    image: postgres:14.1-alpine
-    restart: always
+  # asp:
+  #   container_name: web
+  #   build:      
+  #     context: ./
+  #     # dockerfile: ./HelloDockerWeb/Dockerfile
+  #   depends_on: [ postgres ]
+  #   ports:
+  #     - "3000:80"
+  postgres:
+    container_name: postgres
+    image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-test}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-test}
       # PGDATA: /data/postgres
+    volumes:
+       - postgres:/data/postgres
     ports:
-      - '5432:5432'
-    volumes: 
-      - db:/var/lib/postgresql/data
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "${PGADMIN_PORT:-8080}:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
 
 volumes:
-  db:
-    driver: local
+    postgres:
+    pgadmin:
