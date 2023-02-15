@@ -9,6 +9,8 @@ services:
     depends_on: [ postgres ]
     ports:
       - "3000:80"
+      - "3001:443"
+
   postgres:
     container_name: postgres
     image: postgres
