@@ -48,7 +48,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
-Console.WriteLine("Migarted at the start:", builder.Configuration);
+Console.WriteLine("Migarted at the start:", builder.Configuration.ToString());
 
 using (var scope = app.Services.CreateScope())
 {    
