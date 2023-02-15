@@ -7,10 +7,6 @@ RUN dotnet restore
 
 COPY . ./
 
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
-RUN dotnet ef database update
-
 RUN dotnet publish -c release -o /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
@@ -20,5 +16,9 @@ COPY --from=build  /app ./
 EXPOSE 80
 #EXPOSE 443
 
+
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+RUN dotnet ef database update
 
 ENTRYPOINT ["dotnet", "REST_API_TEMPLATE.dll"]
