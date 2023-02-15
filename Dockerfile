@@ -13,6 +13,6 @@ WORKDIR /app
 COPY --from=build  /app ./
 
 EXPOSE 80
-EXPOSE 443
+#EXPOSE 443
 
 ENTRYPOINT ["dotnet", "REST_API_TEMPLATE.dll", "migrate", "update"]
