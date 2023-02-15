@@ -12,7 +12,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build  /app ./
 
-EXPOSE 3000
-#EXPOSE 443
+EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["dotnet", "REST_API_TEMPLATE.dll", "migrate", "update"]

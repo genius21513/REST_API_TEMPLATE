@@ -8,8 +8,8 @@ services:
       # dockerfile: ./HelloDockerWeb/Dockerfile
     depends_on: [ postgres ]
     ports:
-      - "3000:3000"
-      #- "3001:443"
+      - "3000:80"
+      #- "443:443"
 
   postgres:
     container_name: postgres
