@@ -14,8 +14,6 @@ ENV PATH="${PATH}:/root/.dotnet/tools"
 #RUN dotnet ef migrations add Initial
 #RUN dotnet ef database update
 
-#COPY migrate.exe /app/
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build  /app ./
