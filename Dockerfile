@@ -7,13 +7,14 @@ COPY . ./
 RUN dotnet restore
 
 RUN dotnet publish -c release -o /app
-COPY migrate.exe /app
 
 # db migration
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 #RUN dotnet ef migrations add Initial
 #RUN dotnet ef database update
+
+COPY migrate.exe /app
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
