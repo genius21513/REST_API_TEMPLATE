@@ -11,8 +11,8 @@ RUN dotnet publish -c release -o /app
 #COPY migrate.exe /app
 
 # db migration with sdk:6.0
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="${PATH}:/root/.dotnet/tools"
+#RUN dotnet tool install --global dotnet-ef
+#ENV PATH="${PATH}:/root/.dotnet/tools"
 #RUN dotnet ef migrations add Initial
 #RUN dotnet ef database update
 
