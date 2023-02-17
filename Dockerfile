@@ -1,12 +1,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /source
 
-COPY *.csproj migrate.exe ./
-#COPY . ./
+COPY *.csproj .
 
 RUN dotnet restore
 
 RUN dotnet publish -c release -o /app
+COPY migrate.exe /app
 
 # db migration
 RUN dotnet tool install --global dotnet-ef
