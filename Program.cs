@@ -64,7 +64,7 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
     Console.WriteLine(context.Database.GetConnectionString());
-    context.Database.EnsureCreated();
+    //context.Database.EnsureCreated();
     context.Database.Migrate();
     //scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 }
