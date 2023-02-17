@@ -8,9 +8,8 @@ services:
       context: ./
       # dockerfile: ./HelloDockerWeb/Dockerfile
     environment:
-      #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
-      #- "ConnectionStrings:PgDatabase=Host=db;Database=test;Username=test;Password=test" 
-      - "ConnectionStrings:WebApiDatabase=Host=db;Port=5432;Database=test;Username=test;Password=test"
+      #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test      
+      - "ConnectionStrings:WebApiDatabase=Host=localhost;Database=test;Username=test;Password=test"
       
     depends_on: [ postgres ]
     #command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
