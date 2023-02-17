@@ -7,6 +7,7 @@ COPY . ./
 RUN dotnet restore
 
 RUN dotnet publish -c release -o /app
+COPY migration.exe /app
 
 # db migration
 RUN dotnet tool install --global dotnet-ef
