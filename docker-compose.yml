@@ -10,9 +10,10 @@ services:
     environment:
       #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test
       #- "ConnectionStrings:PgDatabase=Host=db;Database=test;Username=test;Password=test" 
-      - "ConnectionStrings:WebApiDatabase=Host=db;Database=test;Username=test;Password=test" 
+      - "ConnectionStrings:WebApiDatabase=Host=db;Port=5432;Database=test;Username=test;Password=test"
+      
     depends_on: [ postgres ]
-    command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
+    #command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
     ports:
       - "3000:80"
       #- "443:443"
