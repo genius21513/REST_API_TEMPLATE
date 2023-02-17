@@ -51,10 +51,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 var app = builder.Build();
 
+//Console.WriteLine("Running migration:------------------");
+
+//using (var context = (AppDbContext)app.Services.GetService(typeof(AppDbContext)))
+//{
+//    context.Database.Migrate();
+//}
+
 using (var scope = app.Services.CreateScope())
 {
     Console.WriteLine("Running migration:------------------");
-    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    context.Database.Migrate();
+    //scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.
