@@ -5,17 +5,19 @@ services:
     container_name: 'web'
     restart: always
     build:      
-      context: ./
-      # dockerfile: ./HelloDockerWeb/Dockerfile
-    environment:
-      #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test      
-      - "ConnectionStrings:WebApiDatabase=Host=postgres;Database=test;Username=test;Password=test"      
-    depends_on: [ postgres ]
+        context: ./
+        # dockerfile: ./HelloDockerWeb/Dockerfile
+    #environment:
+        #- DB_CONNECTION_STRING=Host=postgres;Database=test;Username=test;Password=test      
+        #- "ConnectionStrings:WebApiDatabase=Host=postgres;Database=test;Username=test;Password=test"      
+    depends_on: 
+        - "postgres"
     #command: dotnet watch --project ./app run --urls "http://0.0.0.0:80"
     ports:
-      - "3000:80"
-      #- "443:443"
-
+        - "3000:80"
+        #- "443:443"
+    networks:
+      - main-network
 
   postgres:
     container_name: 'postgres'
