@@ -63,6 +63,7 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine("Running migration:------------------");
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+    context.Database.EnsureCreated();
     context.Database.Migrate();
     //scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 }
