@@ -10,16 +10,16 @@ RUN dotnet publish -c release -o /app
 
 #COPY migrate.exe /app
 
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
-WORKDIR /app
-COPY --from=build  /app ./
-
-# db migration
+# db migration with sdk:6.0
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 #RUN dotnet ef migrations add Initial
 #RUN dotnet ef database update
 
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=build  /app ./
 
 EXPOSE 80
 #EXPOSE 443
