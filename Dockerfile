@@ -14,7 +14,7 @@ RUN dotnet publish -c release -o /app
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 #RUN dotnet ef migrations add Initial
-RUN dotnet ef database update
+#RUN dotnet ef database update
 
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
