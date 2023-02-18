@@ -21,6 +21,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build  /app ./
 
+ENV ASPNETCORE_ENVIRONMENT Docker
+
 EXPOSE 80
 #EXPOSE 443
 

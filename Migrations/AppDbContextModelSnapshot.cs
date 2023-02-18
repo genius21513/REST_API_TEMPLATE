@@ -39,12 +39,12 @@ namespace REST_API_TEMPLATE.Migrations
                         new
                         {
                             Id = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
-                            Name = "J.K. Rowling"
+                            Name = "Gallery 1"
                         },
                         new
                         {
                             Id = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
-                            Name = "Walter Isaacson"
+                            Name = "Gallery 2"
                         });
                 });
 
@@ -77,23 +77,23 @@ namespace REST_API_TEMPLATE.Migrations
                         {
                             Id = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"),
                             AlbumId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
-                            Caption = "Scholastic; 1st Scholastic Td Ppbk Print., Sept.1999 edition (September 1, 1998)",
+                            Caption = "incorrect default image",
                             Name = "bbb.jpg",
-                            Url = "https://1232131321/bbb.jpg"
+                            Url = "--------------"
                         },
                         new
                         {
                             Id = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"),
                             AlbumId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
-                            Caption = "Scholastic Paperbacks; Reprint edition (September 1, 2000)",
+                            Caption = "incorrect default image",
                             Name = "aaa.jpg",
-                            Url = "https://1232131321/aaa.jpg"
+                            Url = "--------------"
                         },
                         new
                         {
                             Id = new Guid("150c81c6-2458-466e-907a-2df11325e2b8"),
                             AlbumId = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
-                            Caption = "Simon & Schuster; 1st edition (October 24, 2011)",
+                            Caption = "incorrect default image",
                             Name = "ccc.jpg",
                             Url = "https://1232131321/ccc.jpg"
                         });

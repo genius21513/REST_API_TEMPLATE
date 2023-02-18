@@ -33,16 +33,24 @@ builder.Services.AddTransient<ILibraryService, LibraryService>();
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-if (app.Environment.IsDevelopment())
+
+//string connectionString;
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker")
 {
+    //connectionString = builder.Configuration.GetConnectionString("DockerConn");
     builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConn")));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConn")));
+
 }
 else
 {
     builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConn")));
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConn")));
+    //connectionString = builder.Configuration.GetConnectionString("LocalConn");
 }
+
+
+
 
 var app = builder.Build();
 
