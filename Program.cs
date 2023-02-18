@@ -37,16 +37,14 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 //string connectionString;
 if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Docker")
 {
-    //connectionString = builder.Configuration.GetConnectionString("DockerConn");
+    //connectionString = builder.Configuration.GetConnectionString("LocalConn");
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConn")));
-
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConn")));    
 }
 else
-{
+{    
     builder.Services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConn")));
-    //connectionString = builder.Configuration.GetConnectionString("LocalConn");
+        options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConn")));    
 }
 
 
