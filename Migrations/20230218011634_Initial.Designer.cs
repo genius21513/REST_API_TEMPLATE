@@ -12,7 +12,7 @@ using REST_API_TEMPLATE.Data;
 namespace REST_API_TEMPLATE.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230215042107_Initial")]
+    [Migration("20230218011634_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,9 @@ namespace REST_API_TEMPLATE.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Caption")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<string>("Url")
@@ -78,21 +80,24 @@ namespace REST_API_TEMPLATE.Migrations
                             Id = new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"),
                             AlbumId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
                             Caption = "Scholastic; 1st Scholastic Td Ppbk Print., Sept.1999 edition (September 1, 1998)",
-                            Url = "Harry Potter and the Sorcerer's Stone"
+                            Name = "bbb.jpg",
+                            Url = "https://1232131321/bbb.jpg"
                         },
                         new
                         {
                             Id = new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"),
                             AlbumId = new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"),
                             Caption = "Scholastic Paperbacks; Reprint edition (September 1, 2000)",
-                            Url = "Harry Potter and the Chamber of Secrets"
+                            Name = "aaa.jpg",
+                            Url = "https://1232131321/aaa.jpg"
                         },
                         new
                         {
                             Id = new Guid("150c81c6-2458-466e-907a-2df11325e2b8"),
                             AlbumId = new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"),
                             Caption = "Simon & Schuster; 1st edition (October 24, 2011)",
-                            Url = "Steve Jobs"
+                            Name = "ccc.jpg",
+                            Url = "https://1232131321/ccc.jpg"
                         });
                 });
 

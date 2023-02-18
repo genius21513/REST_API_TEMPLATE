@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using REST_API_TEMPLATE.Data;
 using REST_API_TEMPLATE.Services;
+using Amazon.S3;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,41 +33,27 @@ builder.Services.AddTransient<ILibraryService, LibraryService>();
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-
-// add environmet variables
-//builder.Configuration.AddEnvironmentVariables();
-
-//var connectionString = builder.Configuration["ConnectionString"];
-//Console.WriteLine(connectionString);
-
-// Register database
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase")));
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseNpgsql(builder.Configuration.GetConnectionString("PgDatabase")));
+if (app.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("LocalConn")));
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DockerConn")));
+}
 
 var app = builder.Build();
-
-//Console.WriteLine("Running migration:------------------");
-
-//using (var context = (AppDbContext)app.Services.GetService(typeof(AppDbContext)))
-//{
-//    context.Database.Migrate();
-//}
 
 using (var scope = app.Services.CreateScope())
 {
     Console.WriteLine("Running migration:------------------");
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-    Console.WriteLine(context.Database.GetConnectionString());
+    //Console.WriteLine(context.Database.GetConnectionString());
     //context.Database.EnsureCreated();
     context.Database.Migrate();
-    //scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
 }
 
 // Configure the HTTP request pipeline.

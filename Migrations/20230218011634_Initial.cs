@@ -26,8 +26,9 @@ namespace REST_API_TEMPLATE.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Caption = table.Column<string>(type: "text", nullable: true),
                     Url = table.Column<string>(type: "text", nullable: true),
-                    Caption = table.Column<string>(type: "text", nullable: false),
                     AlbumId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -52,12 +53,12 @@ namespace REST_API_TEMPLATE.Migrations
 
             migrationBuilder.InsertData(
                 table: "Images",
-                columns: new[] { "Id", "AlbumId", "Caption", "Url" },
+                columns: new[] { "Id", "AlbumId", "Caption", "Name", "Url" },
                 values: new object[,]
                 {
-                    { new Guid("150c81c6-2458-466e-907a-2df11325e2b8"), new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"), "Simon & Schuster; 1st edition (October 24, 2011)", "Steve Jobs" },
-                    { new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"), new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"), "Scholastic; 1st Scholastic Td Ppbk Print., Sept.1999 edition (September 1, 1998)", "Harry Potter and the Sorcerer's Stone" },
-                    { new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"), new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"), "Scholastic Paperbacks; Reprint edition (September 1, 2000)", "Harry Potter and the Chamber of Secrets" }
+                    { new Guid("150c81c6-2458-466e-907a-2df11325e2b8"), new Guid("6ebc3dbe-2e7b-4132-8c33-e089d47694cd"), "Simon & Schuster; 1st edition (October 24, 2011)", "ccc.jpg", "https://1232131321/ccc.jpg" },
+                    { new Guid("98474b8e-d713-401e-8aee-acb7353f97bb"), new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"), "Scholastic; 1st Scholastic Td Ppbk Print., Sept.1999 edition (September 1, 1998)", "bbb.jpg", "https://1232131321/bbb.jpg" },
+                    { new Guid("bfe902af-3cf0-4a1c-8a83-66be60b028ba"), new Guid("90d10994-3bdd-4ca2-a178-6a35fd653c59"), "Scholastic Paperbacks; Reprint edition (September 1, 2000)", "aaa.jpg", "https://1232131321/aaa.jpg" }
                 });
 
             migrationBuilder.CreateIndex(

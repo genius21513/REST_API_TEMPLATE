@@ -17,6 +17,7 @@ namespace REST_API_TEMPLATE.Controllers
         }
 
 
+
         /// <summary>
         /// Upload a image
         /// </summary>
@@ -25,29 +26,27 @@ namespace REST_API_TEMPLATE.Controllers
         {
             try
             {
-                (bool status, string path) = await _libraryService.UploadImageAsync(uir.file);
+                var key = uir.file.FileName;
+                await _libraryService.UploadFileAsync(uir.file);
+                var pUrl = await _libraryService.GetFileUrlAsync(key);
 
-                var image = new Image { 
+                var image = new Image
+                {
                     AlbumId = uir.album_id,
-                    Caption = uir.caption,
-                    Url = path
-                };                
+                    Caption = uir.caption,                    
+                    Url = pUrl,
+                    Name = key  // set name as file name
+                };
+                await _libraryService.AddImageAsync(image);                
 
-                if (status)
-                {
-                    await _libraryService.UploadImageAsync(image);
-                    return StatusCode(StatusCodes.Status200OK, 
-                        new ImageDto_UI {
-                            id = image.Id,
-                            url = image.Url,
-                            albumId = image.AlbumId,
-                            caption = image.Caption
-                        });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "File Upload Failed");
-                }
+                return StatusCode(StatusCodes.Status200OK,
+                    new ImageDto_UI
+                    {
+                        id = image.Id,
+                        url = pUrl,
+                        albumId = image.AlbumId,
+                        caption = image.Caption
+                    });
             }
             catch (Exception ex)
             {
@@ -65,7 +64,7 @@ namespace REST_API_TEMPLATE.Controllers
 
             if (image == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent, $"No book found for id: {image.id}");
+                return StatusCode(StatusCodes.Status204NoContent, $"No book found for id: {image_id}");
             }
 
             return StatusCode(StatusCodes.Status200OK, image);
@@ -77,6 +76,10 @@ namespace REST_API_TEMPLATE.Controllers
         [HttpDelete("{album_id}/images/{image_id}")]
         public async Task<IActionResult> DeleteImage(Guid album_id, Guid image_id)
         {
+            var image = await _libraryService.GetImageAsync(image_id);
+
+            await _libraryService.DeleteFileAsync(image.Url);
+
             (bool status, string message) = await _libraryService.DeleteImageAsync(image_id);
 
             if (status == false)

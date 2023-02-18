@@ -28,7 +28,7 @@ namespace REST_API_TEMPLATE.Controllers
             var albums = await _libraryService.ListAlbumsAsync();
 
             if (albums == null)
-            {
+            {                
                 return StatusCode(StatusCodes.Status204NoContent, "No albums in database");
             }
 
@@ -57,7 +57,10 @@ namespace REST_API_TEMPLATE.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumRequest car)
         {
-            Album album = new Album { Id = new Guid(), Name = car.Name };
+            Album album = new Album { 
+                Id = new Guid(), 
+                Name = car.Name 
+            };
 
             var dbAlbum = await _libraryService.CreateAlbumAsync(album);
 
@@ -66,8 +69,7 @@ namespace REST_API_TEMPLATE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{album.Name} could not be added.");
             }
 
-            return StatusCode(StatusCodes.Status200OK, dbAlbum);
-            //return CreatedAtAction("GetAlbum", new { id = dbAlbum.id }, dbAlbum);
+            return StatusCode(StatusCodes.Status200OK, dbAlbum);            
         }
 
         /// <summary>
@@ -77,6 +79,7 @@ namespace REST_API_TEMPLATE.Controllers
         public async Task<IActionResult> DeleteAlbum([FromRoute]Guid album_id)
         {
             var album = await _libraryService.GetAlbumAsync(album_id);
+
             (bool status, string message) = await _libraryService.DeleteAlbumAsync(album_id);
 
             if (status == false)
@@ -84,7 +87,7 @@ namespace REST_API_TEMPLATE.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, message);
             }
 
-            return StatusCode(StatusCodes.Status200OK, $"Delted album id: {album_id}");
+            return StatusCode(StatusCodes.Status200OK, $"Deleted album id: {album_id}");
         }
     }
 }
